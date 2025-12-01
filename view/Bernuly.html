@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа: Формула Бернулли</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="bi bi-arrow-left-circle"></i> На Главную
+            </a>
+            <div class="navbar-text text-white ms-3">
+                Учебное пособие: Теория Вероятностей
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <h1 class="text-center mb-4">Тема: Формула Бернулли</h1>
+
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-dark text-white">
+                <i class="bi bi-book"></i> Краткие теоретические сведения
+            </div>
+            <div class="card-body">
+                <p>
+                    <strong>Схема Бернулли</strong> — это серия из $n$ независимых испытаний, в каждом из которых
+                    событие $A$ может произойти с вероятностью $p$ или не произойти с вероятностью $q = 1 - p$.
+                </p>
+                <div class="formula-box text-center">
+                    $$ P_n(k) = C_n^k \cdot p^k \cdot q^{n-k} $$
+                </div>
+                <p>Где:</p>
+                <ul>
+                    <li><strong>n</strong> — общее количество испытаний.</li>
+                    <li><strong>k</strong> — количество успехов (сколько раз событие должно произойти).</li>
+                    <li><strong>p</strong> — вероятность успеха в одном испытании.</li>
+                    <li><strong>q</strong> — вероятность неудачи ($q = 1 - p$).</li>
+                    <li><strong>$C_n^k$</strong> — число сочетаний (биномиальный коэффициент):
+                        $$ C_n^k = \frac{n!}{k!(n-k)!} $$
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <h3 class="mb-3">Практическая часть</h3>
+
+        <div class="row">
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm mb-4 h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <strong>Пример 1. Проверка документов</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            <em>Условие:</em> Вероятность ошибки в документе задана. Какова вероятность того, что из
+                            общего числа документов ровно $k$ будут "чистыми" (без ошибок)?
+                        </p>
+
+                        <hr>
+
+                        <form onsubmit="event.preventDefault(); solveTask1_Interactive();">
+                            <div class="mb-3">
+                                <label class="form-label">Общее число документов ($n$):</label>
+                                <input type="number" class="form-control" id="t1-n" value="10" min="1">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Число документов без ошибок ($k$):</label>
+                                <input type="number" class="form-control" id="t1-k" value="9" min="0">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Вероятность ОШИБКИ в одном документе ($p_{err}$):</label>
+                                <input type="number" class="form-control" id="t1-p-err" value="0.1" step="0.01" min="0"
+                                    max="1">
+                                <div class="form-text text-danger">Внимание: нам нужны документы БЕЗ ошибок, поэтому
+                                    вероятность успеха $p = 1 - p_{err}$.</div>
+                            </div>
+
+                            <button class="btn btn-warning w-100" type="submit">Рассчитать вероятность</button>
+                        </form>
+
+                        <div class="mt-4" id="output-1" style="display:none;">
+                            <h5>Ход решения:</h5>
+                            <div class="result-box" id="result-content-1"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="card shadow-sm mb-4 h-100">
+                    <div class="card-header bg-warning text-dark">
+                        <strong>Пример 2. Производство деталей</strong>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-muted">
+                            <em>Условие:</em> Станки требуют регулировки с некоторой вероятностью. Найти вероятность
+                            того, что ровно $k$ станков из $n$ потребуют внимания мастера.
+                        </p>
+
+                        <hr>
+
+                        <form onsubmit="event.preventDefault(); solveTask2_Interactive();">
+                            <div class="mb-3">
+                                <label class="form-label">Количество станков ($n$):</label>
+                                <input type="number" class="form-control" id="t2-n" value="5" min="1">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Сколько требуют регулировки ($k$):</label>
+                                <input type="number" class="form-control" id="t2-k" value="3" min="0">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Вероятность сбоя станка ($p$):</label>
+                                <input type="number" class="form-control" id="t2-p" value="0.02" step="0.001" min="0"
+                                    max="1">
+                            </div>
+
+                            <button class="btn btn-warning w-100" type="submit">Рассчитать вероятность</button>
+                        </form>
+
+                        <div class="mt-4" id="output-2" style="display:none;">
+                            <h5>Ход решения:</h5>
+                            <div class="result-box" id="result-content-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../scripts/Bernuly.js"></script>
+</body>
+
+</html>

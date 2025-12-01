@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная: Отклонение частоты</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4"
+        style="background: linear-gradient(to right, #6610f2, #6f42c1);">
+        <div class="container">
+            <a class="navbar-brand" href="../index.html">
+                <i class="bi bi-arrow-left-circle"></i> На Главную
+            </a>
+            <div class="navbar-text text-white ms-3">
+                Учебное пособие: Закон больших чисел
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mb-5">
+        <h1 class="text-center mb-4">Отклонение относительной частоты</h1>
+
+        <div class="card shadow-sm mb-5">
+            <div class="card-header bg-dark text-white">
+                <i class="bi bi-book"></i> Теоретическая справка: Суть метода
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">1. Что такое относительная частота?</h5>
+                <p>
+                    Представьте, что вы подбрасываете монету.
+                <ul>
+                    <li><strong>Вероятность ($p$):</strong> Это теоретическое число (0.5), которое мы <em>ожидаем</em>.
+                    </li>
+                    <li><strong>Относительная частота ($W = m/n$):</strong> Это результат <em>реального опыта</em>. Если
+                        из 10 бросков "орел" выпал 7 раз, то частота равна $0.7$.</li>
+                </ul>
+                По <strong>Закону больших чисел (Теорема Бернулли)</strong>: чем больше опытов $n$ мы проводим, тем
+                ближе частота $m/n$ приближается к теоретической вероятности $p$.
+                </p>
+
+                <h5 class="card-title mt-4">2. Зачем считать отклонение?</h5>
+                <p>
+                    Мы не можем провести бесконечное число опытов. Нам нужно знать: <strong>насколько сильно</strong>
+                    наш практический результат может случайно отклониться от истины при данном количестве опытов.
+                </p>
+                <div class="alert alert-light border">
+                    Формула позволяет ответить на вопросы:
+                    <ul>
+                        <li><em>"Сколько нужно опросить людей, чтобы результат выборов был точен до 1%?"</em></li>
+                        <li><em>"Какова гарантия, что в партии из 1000 деталей брака действительно не больше 2%?"</em>
+                        </li>
+                    </ul>
+                </div>
+
+                <h5 class="card-title mt-3">3. Формула оценки вероятности отклонения</h5>
+                <p>
+                    Вероятность того, что отклонение частоты от вероятности (ошибка опыта) не превысит число
+                    $\varepsilon$ (эпсилон):
+                </p>
+
+                <div class="formula-box text-center">
+                    $$ P\left( \left| \frac{m}{n} - p \right| \leq \varepsilon \right) \approx 2\Phi(x) $$
+                </div>
+
+                <p class="text-center">
+                    Аргумент функции Лапласа вычисляется так:
+                    $$ x = \varepsilon \sqrt{\frac{n}{pq}} $$
+                </p>
+                <p>
+                    <small class="text-muted">Где $\Phi(x)$ — функция Лапласа, $n$ — число опытов, $p$ — вероятность
+                        успеха, $q = 1-p$.</small>
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mb-3">Практическая часть</h3>
+        <div class="row">
+
+            <!-- ЗАДАЧА 3.1 -->
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">Задача 3.1</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <strong>Условие:</strong> Вероятность выпадения "орла" $p=0.5$. Бросают монету $n$ раз.
+                            Найти вероятность того, что отклонение частоты от вероятности по модулю не превысит
+                            $\varepsilon$.
+                        </p>
+                        <hr>
+                        <form onsubmit="event.preventDefault(); solveTask3_1();">
+                            <div class="mb-2">
+                                <label>Количество бросков ($n$):</label>
+                                <input type="number" id="t3-1-n" class="form-control" value="900">
+                            </div>
+                            <div class="mb-2">
+                                <label>Вероятность события ($p$):</label>
+                                <input type="number" id="t3-1-p" class="form-control" value="0.5" step="0.01">
+                            </div>
+                            <div class="mb-2">
+                                <label>Допустимое отклонение ($\varepsilon$):</label>
+                                <input type="number" id="t3-1-eps" class="form-control" value="0.02" step="0.001">
+                            </div>
+                            <button class="btn btn-primary w-100 mt-2" type="submit">Решить</button>
+                        </form>
+                        <div id="output-3-1" class="mt-3 result-box" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ЗАДАЧА 3.2 -->
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">Задача 3.2</div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <strong>Условие:</strong> Проводится $n$ испытаний, вероятность события $p$.
+                            Найти вероятность того, что отклонение частоты от вероятности не превысит $\varepsilon$.
+                        </p>
+                        <hr>
+                        <form onsubmit="event.preventDefault(); solveTask3_2();">
+                            <div class="mb-2">
+                                <label>Число испытаний ($n$):</label>
+                                <input type="number" id="t3-2-n" class="form-control" value="10000">
+                            </div>
+                            <div class="mb-2">
+                                <label>Вероятность события ($p$):</label>
+                                <input type="number" id="t3-2-p" class="form-control" value="0.75" step="0.01">
+                            </div>
+                            <div class="mb-2">
+                                <label>Допустимое отклонение ($\varepsilon$):</label>
+                                <input type="number" id="t3-2-eps" class="form-control" value="0.01" step="0.001">
+                            </div>
+                            <button class="btn btn-primary w-100 mt-2" type="submit">Решить</button>
+                        </form>
+                        <div id="output-3-2" class="mt-3 result-box" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']]
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../scripts/Otnos_chast.js"></script>
+
+</body>
+
+</html>
